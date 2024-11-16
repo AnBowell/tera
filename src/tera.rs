@@ -500,6 +500,11 @@ impl Tera {
         self.templates.keys().map(|s| s.as_str())
     }
 
+    /// Removes a template from the Tera instance
+    pub fn remove_template(&mut self, name: &str) -> Option<Template> {
+        self.templates.remove(name)
+    }
+
     /// Add a single template to the Tera instance.
     ///
     /// This will error if the inheritance chain can't be built, such as adding a child

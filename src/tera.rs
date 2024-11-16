@@ -500,6 +500,19 @@ impl Tera {
         self.templates.keys().map(|s| s.as_str())
     }
 
+    /// Renames a template without recreating it
+    pub fn rename_template(&mut self, name: &str, new_name: &str) -> Result<()> {
+        let template_to_be_renamed = self.templates.remove(name);
+
+        if let Some(x) = template_to_be_renamed {
+            self.templates.insert(new_name.to_string(), x);
+            self.build_inheritance_chains()?;
+            self.check_macro_files()?;
+        };
+
+        Ok(())
+    }
+
     /// Removes a template from the Tera instance
     pub fn remove_template(&mut self, name: &str) -> Option<Template> {
         self.templates.remove(name)
